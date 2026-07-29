@@ -14,3 +14,17 @@
  * 3. Create the variable declarations using TypeScript.
  * 4. Display the student data using console.log.
  */
+
+const name: string ="Nadia Putri";
+const useId: string ="ST2026045";
+const nilaiMidExam: number = 84;
+const nilaiFinalExam: number = 91.5;
+const attendance: number = 100;
+const extracurricular: boolean = true;
+
+console.log(`nama: ${name}`);
+console.log(`useId: ${useId}`);
+console.log(`nilai sentara Exam ${nilaiMidExam}`);
+console.log(`nilai Fix Exam: ${nilaiFinalExam}`);
+console.log(`kehadiran: ${attendance}`);
+console.log(`ekstrakurikuler: ${extracurricular}`);

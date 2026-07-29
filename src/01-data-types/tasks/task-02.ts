@@ -14,3 +14,14 @@
  * 4. Declare all variables in TypeScript.
  * 5. Display the product data using console.log.
  */
+const productName: string = "Keyboard RGB";
+const Harga: number = 850000;
+const discount: number = 25;
+const discountDesimal: number = discount/100;
+const plansToBuy: number = 2;
+const HargaTotal: number = (Harga*plansToBuy)*( 1-discountDesimal);
+console.log(`Nama Product: ${productName}`);
+console.log(`Harga Barang: Rp. ${Harga}`);
+console.log(`Discount: ${discount}%`);
+console.log(`Jumlah Product: ${plansToBuy}`);
+console.log(`Total: Rp. ${HargaTotal}`);

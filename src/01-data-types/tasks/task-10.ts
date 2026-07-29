@@ -16,3 +16,19 @@
  * 2. Store the product data in a single collection.
  * 3. Display the product data using console.log.
  */
+type platform ={
+    ProductCode : string,
+    ProductName: string,
+    Price: number,
+    Quantity: number,
+    FreeShipping: boolean,
+
+};
+
+const customer : platform  []=[
+    {ProductCode: "KB001", ProductName: "Mechanical Keyboard", Price: 850000,Quantity : 1,FreeShipping: true},
+    {ProductCode: "MS002", ProductName: "Wireless Mouse", Price: 275000,Quantity : 2,FreeShipping: true},
+    {ProductCode: "HD003", ProductName: "External SSD 1TB", Price: 1650000,Quantity : 1,FreeShipping: false},
+   {ProductCode: "HD004", ProductName: "Gaming Headset", Price: 720000,Quantity : 1, FreeShipping: true},
+]
+console.log(customer);
