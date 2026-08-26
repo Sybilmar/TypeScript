@@ -24,3 +24,19 @@
  * - Final bill
  * - Green Energy Program eligibility
  */
+
+
+const PreviousMeter: number = 25640;
+const CurrentMeter: number =25892;
+const ElectricityCostPerKWH: number = 1650;
+const SolarPanelInstalled: boolean = true;
+const EnergySavingMode: boolean = false;
+const TotalKonsumsi: number = CurrentMeter - PreviousMeter;
+const InitialBill: number = ElectricityCostPerKWH*TotalKonsumsi;
+const SolarDiscountRate: number = SolarPanelInstalled ? 0.20 : 0;
+const EnergyS: number = EnergySavingMode ? 0.05:
+const TotalDiscount: number = SolarDiscountRate+EnergyS;
+const discountAmount: number = InitialBill*TotalDiscount;
+const FinalBill: number = InitialBill-discountAmount;
+const isEnergyGreen: boolean = 
+SolarPanelInstalled && TotalKonsumsi < 300 && EnergySavingMode;
