@@ -21,7 +21,15 @@
  * - printHospitalReport() must only display results.
  * - No duplicated calculations.
  */
-const patients = [
+type Patient = {
+    id: string;
+    name: string;
+    age: number;
+    department: string
+    admitted: boolean
+    bill: number
+}
+const patients: Patient[] = [
     {
         id: "PT001",
         name: "Alya",
@@ -63,3 +71,45 @@ const patients = [
         bill: 350000
     }
 ];
+
+function countAdmittedPatients(list: Patient[]): number {
+    let count = 0;
+    for (const patient of list) {
+        if (patient.admitted) {
+            count++;
+        }
+    }
+    return count
+}
+function calculateTotalRevenue(list: Patient[]): number {
+    let total = 0;
+    for (const patient of list) {
+        total += patient.bill;
+    }
+    return total;
+}
+
+function getPatientsByDepartment(list: Patient[], dept: string): Patient[] {
+    const result: Patient[] = [];
+    for (const patient of list) {
+        if (patient.department === dept) {
+            result.push(patient);
+        }
+    }
+    return result;
+}
+
+function printHospitalReport(list: Patient[]): void {
+    const admittedCount = countAdmittedPatients(list);
+    const totalBill = calculateTotalRevenue(list);
+
+    console.log("=== HOSPITAL PATIENT REPORT ===");
+    console.log(`Total Patients: ${list.length}`);
+    console.log(`Admitted Patients: ${admittedCount}`);
+    console.log(`Outpatients: ${list.length - admittedCount}`);
+    console.log(`Total Billing Revenue: Rp ${totalBill.toLocaleString()}`);
+    console.log("-------------------------------");
+}
+
+// Example execution
+printHospitalReport(patients);

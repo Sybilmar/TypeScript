@@ -30,17 +30,29 @@ const scores = [
 ];
 
 function findHighestScore(scores: number[]): number {
+  return Math.max(... scores);
 
 }
 
 function findLowestScore(scores: number[]): number {
-
+  return Math.min(...scores);
 }
 
 function calculateAverage(scores: number[]): number {
-    
+  const sum = scores.reduce((total, score) => total + score, 0);
+  return sum / scores.length;
 }
 
 function countPassedStudents(scores: number[]): number {
-
+  return scores.filter((score) => score >= 75).length;
 }
+
+function displayReport(scores: number[]): void {
+  console.log("=== Backend Development Grade Report ===");
+  console.log(`Highest Score: ${findHighestScore(scores)}`);
+  console.log(`Lowest Score: ${findLowestScore(scores)}`);
+  console.log(`Average Score: ${calculateAverage(scores).toFixed(2)}`);
+  console.log(`Passed Students: ${countPassedStudents(scores)}`);
+}
+
+displayReport(scores);

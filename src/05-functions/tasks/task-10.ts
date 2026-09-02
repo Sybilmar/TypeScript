@@ -34,7 +34,15 @@
  * Reuse existing functions whenever possible
  */
 
-const enrollments = [
+type Enrollment = {
+    student: string;
+    course: string;
+    completed: boolean;
+    score: number;
+    duration: number;
+}
+
+const enrollments: Enrollment[] = [
     {
         student: "Alya",
         course: "TypeScript",
@@ -92,3 +100,72 @@ const enrollments = [
         duration: 20
     }
 ];
+
+function calculateCompletionRate(list: Enrollment[]): number {
+    if (list.length === 0) return 0
+    let completedCount = 0
+
+    for (const item of list) {
+        if (item.completed) {
+            completedCount++
+        }
+    }
+    return (completedCount / list.length) * 100
+}
+
+function calculateAverageScoreByCourse(list: Enrollment[], courseName: string): number {
+    let totalScore = 0
+    let count = 0
+
+    for (const item of list) {
+        if (item.course === courseName) {
+            totalScore += item.score;
+            count++
+        }
+    }
+    return count == 0 ? 0 : totalScore / count;
+}
+function findTopStudent(list: Enrollment[]): Enrollment | null {
+    if (list.length === 0) return null;
+
+    let topStudent = list[0];
+    for (const item of list) {
+        if (item.score > topStudent.score) {
+            topStudent = item;
+        }
+    }
+
+    return topStudent;
+}
+
+function printCourseReport(list: Enrollment[]): void {
+    const completionRate = calculateCompletionRate(list);
+    const topStudent = findTopStudent(list);
+
+    console.log("=== COURSE ENROLLMENT REPORT ===");
+    console.log(`Total Enrollments : ${list.length}`);
+    console.log(`Completion Rate   : ${completionRate.toFixed(1)}%`);
+
+    if (topStudent) {
+        console.log(`Top Performer     : ${topStudent.student} (${topStudent.score} pts in ${topStudent.course})`);
+    }
+
+    console.log("--------------------------------");
+    console.log("Average Scores per Course:");
+
+    // Extract unique courses dynamically
+    const courses: string[] = [];
+    for (const item of list) {
+        if (!courses.includes(item.course)) {
+            courses.push(item.course);
+        }
+    }
+
+    for (const course of courses) {
+        const avg = calculateAverageScoreByCourse(list, course);
+        console.log(`- ${course}: ${avg.toFixed(1)}`);
+    }
+}
+
+// Example execution
+printCourseReport(enrollments);

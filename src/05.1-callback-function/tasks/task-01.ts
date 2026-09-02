@@ -5,22 +5,26 @@
  * For example, when a student successfully registers for a course, the system can display a registration message.
  */
 
-function registerStudent(
-    studentName: string,
+function welcomeAllStudents(
+    students: string[],
     callback: (name: string) => void
 ): void {
-    console.log(`Registering ${studentName}...`);
+    console.log("Starting welcome process...");
 
-    callback(studentName);
+    for (const student of students) {
+        callback(student);
+    }
 }
 
-/** The school provides the callback: */
-function showRegistrationMessage(name: string): void {
-    console.log(`${name} successfully registered.`);
+/** The school provides the welcome message callback: */
+function showWelcomeMessage(name: string): void {
+    console.log(`Welcome to the new school year, ${name}!`);
 }
 
-/** show registration message */
-registerStudent(`John Cena`, showRegistrationMessage)
+// Example execution:
+const studentList = ["John Cena", "Alya", "Budi", "Citra"];
+
+welcomeAllStudents(studentList, showWelcomeMessage);
 
 /** 
  * TASK:
