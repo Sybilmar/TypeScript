@@ -26,22 +26,41 @@
  */
 
 class Payment {
+    constructor(
+        public transactionId: string,
+        public amount: number
+    ) { }
+
     calculateFee(): number {
-        return 0
+        return 0;
+    }
+
+    getTotalAmount(): number {
+        return this.amount + this.calculateFee();
     }
 }
 
 class CreditCardPayment extends Payment {
-
+    override calculateFee(): number {
+        return this.amount * 0.02;
+    }
 }
 
 class BankTransferPayment extends Payment {
-
+    override calculateFee(): number {
+        return 5000;
+    }
 }
 
 class EWalletPayment extends Payment {
-
+    override calculateFee(): number {
+        return this.amount * 0.01;
+    }
 }
+
+const creditCardPayment = new CreditCardPayment("TRX001", 1000000);
+const bankTransferPayment = new BankTransferPayment("TRX002", 750000);
+const eWalletPayment = new EWalletPayment("TRX003", 500000);
 
 const payments: Payment[] = [
     creditCardPayment,
@@ -50,5 +69,8 @@ const payments: Payment[] = [
 ];
 
 for (const payment of payments) {
-    console.log(payment.calculateFee());
+    console.log(`Transaction ID : ${payment.transactionId}`);
+    console.log(`Amount         : Rp${payment.amount.toLocaleString()}`);
+    console.log(`Processing Fee : Rp${payment.calculateFee().toLocaleString()}`);
+    console.log(`Total Paid     : Rp${payment.getTotalAmount().toLocaleString()}`);
 }

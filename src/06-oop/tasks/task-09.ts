@@ -26,8 +26,75 @@
  */
 
 class Notification {
+    constructor(public message: string) { }
 
+    send(): void {
+        console.log(`Sending message: ${this.message}`);
+    }
 }
+
+class EmailNotification extends Notification {
+    constructor(
+        message: string,
+        public emailTo: string
+    ) {
+        super(message);
+    }
+
+    override send(): void {
+        console.log("---");
+        console.log(`To: ${this.emailTo}`);
+        console.log(`Message: ${this.message}`);
+        console.log("---");
+    }
+}
+
+class SMSNotification extends Notification {
+    constructor(
+        message: string,
+        public phoneTo: string
+    ) {
+        super(message);
+    }
+
+    override send(): void {
+        console.log("---");
+        console.log(`To: ${this.phoneTo}`);
+        console.log(`Message: ${this.message}`);
+        console.log("---");
+    }
+}
+
+class PushNotification extends Notification {
+    constructor(
+        message: string,
+        public deviceId: string
+    ) {
+        super(message);
+    }
+
+    override send(): void {
+        console.log("---");
+        console.log(`Device: ${this.deviceId}`);
+        console.log(`Message: ${this.message}`);
+        console.log("---");
+    }
+}
+
+const emailNotification = new EmailNotification(
+    "Your assignment has been graded.",
+    "student@example.com"
+);
+
+const smsNotification = new SMSNotification(
+    "Your assignment has been graded.",
+    "+628123456789"
+);
+
+const pushNotification = new PushNotification(
+    "Your assignment has been graded.",
+    "ST001"
+);
 
 const notifications: Notification[] = [
     emailNotification,
