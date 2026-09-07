@@ -24,3 +24,45 @@ const borrowings = [
     { student: "Eka", bookId: 1, days: 4 },
     { student: "Andi", bookId: 3, days: 8 },
 ];
+
+const bookMap = new Map(books.map((book) => [book.id, book]));
+
+const borrowingCounts = borrowings.reduce<Record<string, number>>((acc, record) => {
+    const book = bookMap.get(record.bookId);
+    if (book) {
+        acc[book.title] = (acc[book.title] || 0) + 1;
+    }
+    return acc;
+}, {});
+
+const mostBorrowedBook = Object.entries(borrowingCounts).reduce(
+    (max, [title, count]) => (count > max.count ? { title, count } : max),
+    { title: "", count: 0 }
+);
+
+const remainingStock = books.map((book) => {
+    const borrowedCount = borrowings.filter((b) => b.bookId === book.id).length;
+    return {
+        ...book,
+        stock: Math.max(0, book.stock - borrowedCount),
+    };
+});
+
+const lateBorrowers = borrowings
+    .filter((record) => record.days > 7)
+    .map((record) => {
+        const extraDays = record.days - 7;
+        const fine = extraDays * 2000;
+        const book = bookMap.get(record.bookId);
+        return {
+            student: record.student,
+            bookTitle: book?.title,
+            days: record.days,
+            fine,
+        };
+    });
+
+console.log("Borrowing Counts:", borrowingCounts);
+console.log("Most Borrowed Book:", mostBorrowedBook);
+console.log("Remaining Stock:", remainingStock);
+console.log("Late Borrowers & Fines:", lateBorrowers);

@@ -35,3 +35,29 @@ const orders = [
         ],
     },
 ];
+
+const getOrderTotal = (items: { price: number; quantity: number }[]) =>
+  items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+const totalRevenue = orders
+  .filter((order) => order.status === "completed")
+  .reduce((sum, order) => sum + getOrderTotal(order.items), 0);
+
+const productSalesSummary = orders
+  .filter((order) => order.status === "completed")
+  .flatMap((order) => order.items)
+  .reduce<Record<string, number>>((acc, item) => {
+    acc[item.product] = (acc[item.product] || 0) + item.quantity;
+    return acc;
+  }, {});
+
+const customerTotals = orders.map((order) => ({
+  id: order.id,
+  customer: order.customer,
+  status: order.status,
+  totalAmount: getOrderTotal(order.items),
+}));
+
+console.log("Total Completed Revenue:", totalRevenue); 
+console.log("Product Sales Summary:", productSalesSummary); 
+console.log("Customer Totals:", customerTotals);

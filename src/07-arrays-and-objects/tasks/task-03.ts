@@ -23,3 +23,24 @@ const attendance = [
     { studentId: 3, status: "present" },
     { studentId: 4, status: "late" },
 ];
+
+const attendanceMap = new Map (
+    attendance.map((record) => [record.studentId, record. status])
+)
+
+const presentStudents = students
+.filter((students) => attendanceMap.get(students.id) === "present")
+.map((student) => student.name)
+
+const absentStudents = students
+.filter((student) => attendanceMap.get(student.id) === "absent")
+.map((student) => student.name)
+
+const lateStudents = students
+.filter((student) => attendanceMap.get(student.id) === "late")
+.map ((student) => student.name)
+
+const studentStatues = students.map((student) => ({
+    name: student.name,
+    status: attendanceMap.get(student.id) ?? "unknown",
+}))

@@ -27,18 +27,18 @@
  * - It should only process the students and execute the callback.
  */
 type Student = {
-    name: String;
+    name: string;
     score: number;
-    attendance: number
-}
+    attendance: number;
+};
 
-type passStatus = "PASS" | "FAIL";
+type PassStatus = "PASS" | "FAIL";
 type AttendanceStatus = "SATISFACTORY" | "LOW ATTENDANCE";
 type Recommendation = "Excellent" | "Good" | "Improve Attendance" | "Improve Academic Performance";
 
-type StudentPassreport = Student & {status: passStatus};
-type StudentAttendanceReport = Student & {attendanceStatus: AttendanceStatus};
-type StudentsRecomendationreport = Student & {recomendation: Recommendation} 
+type StudentPassReport = Student & { status: PassStatus };
+type StudentAttendanceReport = Student & { attendanceStatus: AttendanceStatus };
+type StudentRecommendationReport = Student & { recommendation: Recommendation };
 
 const students: Student[] = [
     { name: "Alya", score: 92, attendance: 96 },
@@ -48,7 +48,7 @@ const students: Student[] = [
     { name: "Eka", score: 95, attendance: 82 },
     { name: "Fajar", score: 79, attendance: 97 }
 ];
-// 1. Callback to determine Pass/Fail status
+
 function getPassStatus(student: Student): StudentPassReport {
     const isPassed = student.score >= 75 && student.attendance >= 90;
     return {
@@ -57,7 +57,6 @@ function getPassStatus(student: Student): StudentPassReport {
     };
 }
 
-// 2. Callback to determine Attendance status
 function getAttendanceStatus(student: Student): StudentAttendanceReport {
     return {
         ...student,
@@ -65,7 +64,6 @@ function getAttendanceStatus(student: Student): StudentAttendanceReport {
     };
 }
 
-// 3. Callback to determine Final Recommendation
 function getRecommendation(student: Student): StudentRecommendationReport {
     let recommendation: Recommendation;
 
@@ -85,19 +83,13 @@ function getRecommendation(student: Student): StudentRecommendationReport {
     };
 }
 
-// Generic reusable processor function
 function processStudents<T>(
     studentList: Student[],
     callback: (student: Student) => T
 ): T[] {
-    const results: T[] = [];
-    for (const student of studentList) {
-        results.push(callback(student));
-    }
-    return results;
+    return studentList.map(callback);
 }
 
-// Execution
 const passFailReport = processStudents(students, getPassStatus);
 const attendanceReport = processStudents(students, getAttendanceStatus);
 const recommendationReport = processStudents(students, getRecommendation);

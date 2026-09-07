@@ -26,3 +26,17 @@ const students = [
 ];
 
 const correctAnswers = ["A", "B", "C", "A", "B"];
+
+const studentScore = students.map((student) => {
+    const score = student.answers.reduce((acc, answer, index) => {
+        return answer === correctAnswers[index] ? acc + 20 : acc
+    }, 0)
+
+    return { ...student, score }
+})
+
+const passedStudents = studentScore.filter((student) => student.score > 70)
+
+const topStudents = studentScore.reduce((highest, current) => {
+    return current.score > highest.score ? current : highest
+})

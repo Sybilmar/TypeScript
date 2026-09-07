@@ -59,7 +59,6 @@ const transactions = [
  *   - Cancelled transactions → 0%
  */
 
-// Reusable process function accepting a callback logic
 function processTransactions<T>(
     list: Transaction[],
     callback: (trx: Transaction) => T
@@ -71,12 +70,10 @@ function processTransactions<T>(
     return results;
 }
 
-// 1. Callback to extract customer's name
 function extractCustomerName(trx: Transaction): string {
     return trx.customer;
 }
 
-// 2. Callback to determine transaction category
 function categorizeTransaction(trx: Transaction): TransactionWithCategory {
     let category: TransactionCategory;
 
@@ -94,7 +91,6 @@ function categorizeTransaction(trx: Transaction): TransactionWithCategory {
     };
 }
 
-// 3. Callback to calculate platform fee
 function calculatePlatformFee(trx: Transaction): TransactionWithPlatformFee {
     let feeRate = 0;
 
@@ -112,7 +108,6 @@ function calculatePlatformFee(trx: Transaction): TransactionWithPlatformFee {
     };
 }
 
-// Execution
 const customerNames = processTransactions(transactions, extractCustomerName);
 const categorizedTransactions = processTransactions(transactions, categorizeTransaction);
 const transactionsWithFee = processTransactions(transactions, calculatePlatformFee);
