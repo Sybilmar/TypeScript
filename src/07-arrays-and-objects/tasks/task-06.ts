@@ -9,60 +9,74 @@
  * 6. Find students who borrowed books for more than 7 days.
  */
 
-const books = [
-    { id: 1, title: "Clean Code", category: "Programming", stock: 3 },
-    { id: 2, title: "Atomic Habits", category: "Self Development", stock: 5 },
-    { id: 3, title: "The Pragmatic Programmer", category: "Programming", stock: 2 },
-    { id: 4, title: "Design Patterns", category: "Programming", stock: 1 },
+interface Book {
+  id: number;
+  title: string;
+  category: string;
+  stock: number;
+}
+
+interface Borrowing {
+  student: string;
+  bookId: number;
+  days: number;
+}
+
+interface BorrowingWithBookDetail extends Borrowing {
+  book: Book | undefined;
+}
+
+const books: Book[] = [
+  { id: 1, title: "Clean Code", category: "Programming", stock: 3 },
+  { id: 2, title: "Atomic Habits", category: "Self Development", stock: 5 },
+  { id: 3, title: "The Pragmatic Programmer", category: "Programming", stock: 2 },
+  { id: 4, title: "Design Patterns", category: "Programming", stock: 1 },
 ];
 
-const borrowings = [
-    { student: "Andi", bookId: 1, days: 7 },
-    { student: "Budi", bookId: 2, days: 3 },
-    { student: "Citra", bookId: 1, days: 10 },
-    { student: "Deni", bookId: 3, days: 5 },
-    { student: "Eka", bookId: 1, days: 4 },
-    { student: "Andi", bookId: 3, days: 8 },
+const borrowings: Borrowing[] = [
+  { student: "Andi", bookId: 1, days: 7 },
+  { student: "Budi", bookId: 2, days: 3 },
+  { student: "Citra", bookId: 1, days: 10 },
+  { student: "Deni", bookId: 3, days: 5 },
+  { student: "Eka", bookId: 1, days: 4 },
+  { student: "Andi", bookId: 3, days: 8 },
 ];
 
-const bookMap = new Map(books.map((book) => [book.id, book]));
-
-const borrowingCounts = borrowings.reduce<Record<string, number>>((acc, record) => {
-    const book = bookMap.get(record.bookId);
-    if (book) {
-        acc[book.title] = (acc[book.title] || 0) + 1;
-    }
-    return acc;
-}, {});
-
-const mostBorrowedBook = Object.entries(borrowingCounts).reduce(
-    (max, [title, count]) => (count > max.count ? { title, count } : max),
-    { title: "", count: 0 }
+const andiBorrowings: Borrowing[] = borrowings.filter(
+  (b) => b.student === "Andi"
 );
 
-const remainingStock = books.map((book) => {
-    const borrowedCount = borrowings.filter((b) => b.bookId === book.id).length;
-    return {
-        ...book,
-        stock: Math.max(0, book.stock - borrowedCount),
-    };
-});
+const borrowingsWithBookInfo: BorrowingWithBookDetail[] = borrowings.map((b) => ({
+  ...b,
+  book: books.find((book) => book.id === b.bookId),
+}));
 
-const lateBorrowers = borrowings
-    .filter((record) => record.days > 7)
-    .map((record) => {
-        const extraDays = record.days - 7;
-        const fine = extraDays * 2000;
-        const book = bookMap.get(record.bookId);
-        return {
-            student: record.student,
-            bookTitle: book?.title,
-            days: record.days,
-            fine,
-        };
-    });
+const programmingBookIds = new Set(
+  books.filter((b) => b.category === "Programming").map((b) => b.id)
+);
 
-console.log("Borrowing Counts:", borrowingCounts);
-console.log("Most Borrowed Book:", mostBorrowedBook);
-console.log("Remaining Stock:", remainingStock);
-console.log("Late Borrowers & Fines:", lateBorrowers);
+const programmingStudents: string[] = Array.from(
+  new Set(
+    borrowings
+      .filter((b) => programmingBookIds.has(b.bookId))
+      .map((b) => b.student)
+  )
+);
+
+const totalTransactions: number = borrowings.length;
+
+const averageDuration: number =
+  borrowings.reduce((sum, b) => sum + b.days, 0) / borrowings.length;
+
+const longBorrowers: string[] = Array.from(
+  new Set(
+    borrowings.filter((b) => b.days > 7).map((b) => b.student)
+  )
+);
+
+console.log("Task 1 - Andi's Borrowings:", andiBorrowings);
+console.log("Task 2 - Borrowings with Book Details:", borrowingsWithBookInfo);
+console.log("Task 3 - Students who borrowed Programming books:", programmingStudents);
+console.log("Task 4 - Total Transactions:", totalTransactions);
+console.log("Task 5 - Average Borrowing Duration:", Number(averageDuration.toFixed(2)));
+console.log("Task 6 - Students who borrowed > 7 days:", longBorrowers);

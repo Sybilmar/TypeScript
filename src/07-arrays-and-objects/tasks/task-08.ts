@@ -33,22 +33,41 @@ const employees = [
     },
 ];
 
-const getAverageScore = (projects: { score: number}[]): number => {
-    const total = projects.reduce((sum,project) => sum + project.score, 0 )
-    return total / projects.length
+// Type definitions
+interface Project {
+  name: string;
+  score: number;
 }
-const employeeAverages = employees.map((emp) => ({
-  name: emp.name,
-  averageScore: getAverageScore(emp.projects),
-}));
 
-const topPerformers = employeeAverages.filter((emp) => emp.averageScore > 85);
+interface Employee {
+  name: string;
+  department: string;
+  projects: Project[];
+}
 
-const employeesWithLowScores = employees
-  .filter((emp) => emp.projects.some((project) => project.score < 80))
-  .map((emp) => emp.name);
+interface EmployeeAverage {
+  name: string;
+  averageScore: number;
+}
 
-console.log("Employee Averages:", employeeAverages);
-console.log("Top Performers (> 85):", topPerformers);
-console.log("Employees with a project score < 80:", employeesWithLowScores);
+const employeeAverages: EmployeeAverage[] = employees.map((employee) => {
+  const totalScore = employee.projects.reduce((sum, project) => sum + project.score, 0);
+  const averageScore = Number((totalScore / employee.projects.length).toFixed(2));
+  
+  return {
+    name: employee.name,
+    averageScore,
+  };
+});
 
+const topPerformers = employeeAverages.filter(
+  (employee) => employee.averageScore > 85
+);
+
+const employeesWithLowScores = employees.filter((employee) =>
+  employee.projects.some((project) => project.score < 80)
+);
+
+console.log("Task 1 - Average Scores:", employeeAverages);
+console.log("Task 2 - Average > 85:", topPerformers);
+console.log("Task 3 - Has score < 80:", employeesWithLowScores.map(e => e.name));
