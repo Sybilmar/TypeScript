@@ -44,3 +44,8 @@ const studentStatues = students.map((student) => ({
     name: student.name,
     status: attendanceMap.get(student.id) ?? "unknown",
 }))
+
+console.log("1. Present:", presentStudents);
+console.log("2. Absent:", absentStudents);
+console.log("3. Late:", lateStudents);
+console.log("4. Combined Statuses:", studentStatues);

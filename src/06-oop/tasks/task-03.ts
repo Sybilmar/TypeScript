@@ -96,3 +96,7 @@ book1.returnBook();
 
 console.log("");
 book2.showInfo();
+
+
+book2.borrow();
+book2.showInfo();

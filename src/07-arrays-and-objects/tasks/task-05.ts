@@ -40,3 +40,11 @@ const passedStudents = studentScore.filter((student) => student.score > 70)
 const topStudents = studentScore.reduce((highest, current) => {
     return current.score > highest.score ? current : highest
 })
+
+const totalScore = studentScore.reduce((sum, student) => sum + student.score, 0);
+const classAverage = totalScore / studentScore.length;
+
+console.log("1. Student Scores:", studentScore);
+console.log("2. Passed Students:", passedStudents);
+console.log("3. Top Student:", topStudents);
+console.log("4. Class Average:", classAverage);

@@ -35,7 +35,7 @@ class Student {
     major: string;
     grade: number
 
-    constructor(studentId: string, name: string, age: numbber, major: string, grade: number) {
+    constructor(studentId: string, name: string, age: number, major: string, grade: number) {
         this.studentId = studentId
         this.name = name;
         this.age = age;
@@ -52,3 +52,12 @@ class Student {
         console.log(`-----------------------`);
     }
 }
+
+const student1 = new Student("ST001", "Lionel Messi", 17, "Software Engineering", 11);
+const student2 = new Student("ST002", "Aitana Bonmati", 16, "Data Science", 10);
+const student3 = new Student("ST003", "Kylian Mbappe", 18, "Cybersecurity", 12);
+
+student1.showProfile();
+student2.showProfile();
+student3.showProfile();
+
